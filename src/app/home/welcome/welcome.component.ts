@@ -5,6 +5,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ButtonModule } from 'primeng/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TagModule } from 'primeng/tag';
+import { Subscription } from "rxjs";
+import { MovieService } from '../../../movies/movie.service';
+import { IMovie } from '../../../movies/movie';
 
 
 @Component({
@@ -15,17 +18,31 @@ import { TagModule } from 'primeng/tag';
   styleUrl: './welcome.component.css'
 })
 export class WelcomeComponent {
-  public pageTitle = "Astral Streaming"
+  public pageTitle = "Astral Streaming";
+  sub!: Subscription;
+  movies: IMovie[] = [];
+  errorMessage = '';
+
+  constructor(private movieService: MovieService) {}
+
+  ngOnInit(): void {
+    this.sub = this.movieService.getMoviesByTitle('shawshank redemption').subscribe({
+      next: movies => {
+        this.movies = movies;
+      },
+      error: err => this.errorMessage = err
+    });
+  }
 
   products = [
     { name: 'Movie 1', price: 14.99, inventoryStatus: 'Available', poster: "./assets/images/genericMoviePoster.jpg"},
     { name: 'Movie 2', price: 14.99, inventoryStatus: 'Available', poster: "./assets/images/genericMoviePoster.jpg" },
     { name: 'Movie 3', price: 14.99, inventoryStatus: 'Available', poster: "./assets/images/genericMoviePoster.jpg" },
     { name: 'Movie 4', price: 14.99, inventoryStatus: 'Available', poster: "./assets/images/genericMoviePoster.jpg" },
-    { name: 'Movie 1', price: 14.99, inventoryStatus: 'Available', poster: "./assets/images/genericMoviePoster.jpg" },
-    { name: 'Movie 2', price: 14.99, inventoryStatus: 'Available', poster: "./assets/images/genericMoviePoster.jpg" },
-    { name: 'Movie 3', price: 14.99, inventoryStatus: 'Available', poster: "./assets/images/genericMoviePoster.jpg" },
-    { name: 'Movie 4', price: 14.99, inventoryStatus: 'Available', poster: "./assets/images/genericMoviePoster.jpg" },
-    { name: 'Movie 5', price: 14.99, inventoryStatus: 'Available', poster: "./assets/images/genericMoviePoster.jpg" }
+    { name: 'Movie 5', price: 14.99, inventoryStatus: 'Available', poster: "./assets/images/genericMoviePoster.jpg" },
+    { name: 'Movie 6', price: 14.99, inventoryStatus: 'Available', poster: "./assets/images/genericMoviePoster.jpg" },
+    { name: 'Movie 7', price: 14.99, inventoryStatus: 'Available', poster: "./assets/images/genericMoviePoster.jpg" },
+    { name: 'Movie 8', price: 14.99, inventoryStatus: 'Available', poster: "./assets/images/genericMoviePoster.jpg" },
+    { name: 'Movie 9', price: 14.99, inventoryStatus: 'Available', poster: "./assets/images/genericMoviePoster.jpg" }
   ];
 }
