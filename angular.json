@@ -55,16 +55,19 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+              "proxyConfig": "proxy.conf.json"
+          },
           "configurations": {
-            "production": {
-              "buildTarget": "angular-movie-lib:build:production"
-            },
-            "development": {
-              "buildTarget": "angular-movie-lib:build:development"
-            }
+              "production": {
+                  "buildTarget": "angular-movie-lib:build:production"
+              },
+              "development": {
+                  "buildTarget": "angular-movie-lib:build:development"
+              }
           },
           "defaultConfiguration": "development"
-        },
+      },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
