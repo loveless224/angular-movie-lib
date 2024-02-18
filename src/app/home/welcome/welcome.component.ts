@@ -26,12 +26,7 @@ export class WelcomeComponent {
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
-    this.sub = this.movieService.getMoviesByTitle('interstellar').subscribe({
-      next: movies => {
-        this.movies = movies;
-      },
-      error: err => this.errorMessage = err
-    });
+  
   }
 
   products = [

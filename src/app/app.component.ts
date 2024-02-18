@@ -1,6 +1,9 @@
 import { Component, NgModule } from "@angular/core";
 import { NgModel } from "@angular/forms";
 import { RouterLinkActive, RouterLink, RouterOutlet } from "@angular/router";
+import { MovieService } from "../movies/movie.service";
+import { IMovie } from "../movies/movie";
+import { FormsModule } from "@angular/forms";
 
 @Component({
     selector: 'pm-root',
@@ -19,7 +22,7 @@ import { RouterLinkActive, RouterLink, RouterOutlet } from "@angular/router";
           <li><a  routerLinkActive='active' routerLink='/welcome' style='margin-left: 50px;'>Animation</a></li>
           <li><a  routerLinkActive='active' routerLink='/welcome' style='margin-left: 50px;'>Family</a></li>
           <li><a  routerLinkActive='active' routerLink='/welcome' style='margin-left: 50px;'> Romance</a></li>
-          <li style='margin-left: 50px;'>Search<input style='margin-left: 10px;'></li>
+          <li style='margin-left: 50px;'>Search<input style='margin-left: 10px;' type="text" [(ngModel)]="searchQuery" (keydown.enter)="onSearch(searchQuery)"></li>
         </ul>
     </nav>
     <div class='container'>
@@ -28,8 +31,22 @@ import { RouterLinkActive, RouterLink, RouterOutlet } from "@angular/router";
     `,
     styleUrls: ['./app.component.css'],
     standalone: true,
-    imports: [RouterLinkActive, RouterLink, RouterOutlet]
+    imports: [RouterLinkActive, RouterLink, RouterOutlet, FormsModule]
 })
 export class AppComponent {
+  constructor(private movieService: MovieService){
+    this.movieList = [];
+  }
+
+  searchQuery: string = '';
+  movieList: IMovie[];
+
+  onSearch(title: string) {
+    this.movieService.getMoviesByTitle(title).subscribe(
+      (movies) => {
+        this.movieList = movies;
+      }
+    )
+  }
   pageTitle = '';
 }
