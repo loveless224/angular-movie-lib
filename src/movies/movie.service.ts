@@ -10,14 +10,14 @@ import {IMovie} from "./movie"
 
 export class MovieService {
 
-    private baseUrl = 'localhost:8080/'
-    private movieUrl = 'api/v1/movies';
+    private baseUrl = 'http://localhost:8080'
+    private movieUrl = '/api/v1/movies';
     private movieByTitleUrl = `${this.movieUrl}/movie-by-title/`;
 
     constructor(private http: HttpClient){ } 
 
     getMoviesByTitle(titleOfMovie: string): Observable<IMovie[]> {
-        const url = `${this.movieUrl}/movie-by-title/${encodeURIComponent(titleOfMovie)}`;
+        const url = `${this.baseUrl + this.movieUrl}/movie-by-title/${encodeURIComponent(titleOfMovie)}`;
         return this.http.get<IMovie[]>(url)
           .pipe(
               tap(data => console.log('Movies: ', JSON.stringify(data))),
