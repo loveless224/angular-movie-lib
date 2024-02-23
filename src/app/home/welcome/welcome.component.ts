@@ -20,13 +20,25 @@ import { IMovie } from '../../../movies/movie';
 export class WelcomeComponent {
   public pageTitle = "Astral Streaming";
   sub!: Subscription;
-  movies: IMovie[] = [];
+  movieList: IMovie[] = [];
   errorMessage = '';
 
   constructor(private movieService: MovieService) {}
 
   ngOnInit(): void {
-  
+   this.movieService.getMoviesByPopularity().subscribe(
+    (movies) => {
+      this.movieList = movies;
+    } 
+    )
+  }
+
+  onSearch(title: string) {
+    this.movieService.getMoviesByTitle(title).subscribe(
+      (movies) => {
+        this.movieList = movies;
+      }
+    )
   }
 
   products = [
