@@ -29,6 +29,7 @@ export class MovieService {
         const url = `${this.moviesByPopularity}`
         return this.http.get<IMovie[]>(url)
           .pipe(
+            map((response: any) => response.results),
             tap(data => console.log('Popular movies list:', JSON.stringify(data)))
           )
     }

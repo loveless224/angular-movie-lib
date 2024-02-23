@@ -28,6 +28,7 @@ export class WelcomeComponent {
   ngOnInit(): void {
    this.movieService.getMoviesByPopularity().subscribe(
     (movies) => {
+      console.log("OnInit " , movies);
       this.movieList = movies;
     } 
     )
