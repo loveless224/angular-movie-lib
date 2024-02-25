@@ -1,7 +1,8 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, catchError, tap, throwError, map } from "rxjs";
+import { Observable, catchError, tap, throwError, map, BehaviorSubject } from "rxjs";
 import {IMovie} from "./movie"
+import { IGenre } from "./genre";
 
 @Injectable({
     providedIn: 'root'
@@ -13,6 +14,8 @@ export class MovieService {
     private movieUrl = this.baseUrl + '/api/v1/movies';
     private movieByTitleUrl = `${this.movieUrl}/movie-by-title/`;
     private moviesByPopularity = `${this.movieUrl}/movies-by-popularity`
+    private movieByGenreUrl = `${this.movieUrl}/movies-by-genre/`
+    private genresUrl = `${this.movieUrl}/genres`
 
     constructor(private http: HttpClient){ } 
 
@@ -33,6 +36,25 @@ export class MovieService {
             tap(data => console.log('Popular movies list:', JSON.stringify(data)))
           )
     }
+
+    getGenres(): Observable<IGenre[]> {
+        const url = `${this.genresUrl}`;
+        return this.http.get<IGenre[]>(url)
+          .pipe(
+            map((response: any) => response.genres),
+            tap(data => console.log('Genres: ', JSON.stringify(data))),
+            catchError(this.handleError)
+          );
+      }
+
+      getMovieByGenre(genreId: number): Observable<IMovie[]> {
+        const url = `${this.movieByGenreUrl}${genreId}`;
+        return this.http.get<IMovie[]>(url)
+          .pipe(
+            tap(data => console.log('Movies by genre: ', JSON.stringify(data))),
+            catchError(this.handleError)
+          );
+      }
 
       private handleError(err: HttpErrorResponse): Observable<never> {
         let errorMessage = '';

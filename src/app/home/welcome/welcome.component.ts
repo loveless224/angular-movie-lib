@@ -31,7 +31,11 @@ export class WelcomeComponent {
       console.log("OnInit " , movies);
       this.movieList = movies;
     } 
-    )
+    );
+  }
+
+  setMovieList(movies: IMovie[]) {
+    this.movieList = movies;
   }
 
   onSearch(title: string) {
