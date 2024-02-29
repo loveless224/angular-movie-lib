@@ -42,7 +42,6 @@ export class MovieService {
         return this.http.get<IGenre[]>(url)
           .pipe(
             map((response: any) => response.genres),
-            tap(data => console.log('Genres: ', JSON.stringify(data))),
             catchError(this.handleError)
           );
       }
@@ -51,7 +50,6 @@ export class MovieService {
         const url = `${this.movieByGenreUrl}${genreId}`;
         return this.http.get<IMovie[]>(url)
           .pipe(
-            tap(data => console.log('Movies by genre: ', JSON.stringify(data))),
             catchError(this.handleError)
           );
       }

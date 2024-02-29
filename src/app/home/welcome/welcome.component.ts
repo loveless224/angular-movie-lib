@@ -8,6 +8,7 @@ import { TagModule } from 'primeng/tag';
 import { Subscription } from "rxjs";
 import { MovieService } from '../../../movies/movie.service';
 import { IMovie } from '../../../movies/movie';
+import { IGenre } from '../../../movies/genre';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class WelcomeComponent {
   public pageTitle = "Astral Streaming";
   sub!: Subscription;
   movieList: IMovie[] = [];
+  genreList: IGenre[] = [];
   errorMessage = '';
 
   constructor(private movieService: MovieService) {}
@@ -28,7 +30,6 @@ export class WelcomeComponent {
   ngOnInit(): void {
    this.movieService.getMoviesByPopularity().subscribe(
     (movies) => {
-      console.log("OnInit " , movies);
       this.movieList = movies;
     } 
     );
@@ -36,6 +37,24 @@ export class WelcomeComponent {
 
   setMovieList(movies: IMovie[]) {
     this.movieList = movies;
+  }
+
+  handleGenreClick(genre: string) {
+    this.movieService.getGenres().subscribe(
+      (genres) => {
+        this.genreList = genres;
+      }
+    );
+    console.log(this.genreList);
+    const selectedGenre = this.genreList.find(genreList => genreList.name === genre);
+    if (selectedGenre) {
+      this.movieService.getMovieByGenre(selectedGenre.id).subscribe(
+        (movies) => {
+          this.movieList = movies;
+        }
+      )
+    }
+    console.log(this.movieList);
   }
 
   onSearch(title: string) {
