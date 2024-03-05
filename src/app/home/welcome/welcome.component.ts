@@ -40,22 +40,23 @@ export class WelcomeComponent {
   }
 
   handleGenreClick(genre: string) {
-    this.movieService.getGenres().subscribe(
-      (genres) => {
-        this.genreList = genres;
+  this.movieService.getGenres().subscribe(
+    (genres) => {
+      this.genreList = genres;
+      console.log("Genres: " + this.genreList);
+
+      const selectedGenre = this.genreList.find(genreList => genreList.name === genre);
+      if (selectedGenre) {
+        this.movieService.getMovieByGenre(selectedGenre.id).subscribe(
+          (movies) => {
+            this.movieList = movies;
+            console.log("Movies By Genre: " + this.movieList);
+          }
+        );
       }
-    );
-    console.log(this.genreList);
-    const selectedGenre = this.genreList.find(genreList => genreList.name === genre);
-    if (selectedGenre) {
-      this.movieService.getMovieByGenre(selectedGenre.id).subscribe(
-        (movies) => {
-          this.movieList = movies;
-        }
-      )
     }
-    console.log(this.movieList);
-  }
+  );
+}
 
   onSearch(title: string) {
     this.movieService.getMoviesByTitle(title).subscribe(
