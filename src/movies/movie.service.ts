@@ -23,7 +23,7 @@ export class MovieService {
         const url = `${this.movieUrl}/movie-by-title/${encodeURIComponent(titleOfMovie)}`;
         return this.http.get<IMovie[]>(url)
           .pipe(
-              tap(data => console.log('Movies: ', JSON.stringify(data))),
+              tap(data => console.log('MoviesService: ', JSON.stringify(data))),
               catchError(this.handleError)
         );
       }
@@ -41,7 +41,6 @@ export class MovieService {
         const url = `${this.genresUrl}`;
         return this.http.get<IGenre[]>(url)
           .pipe(
-            tap(data => console.log('MovieService genres ', JSON.stringify(data))),
             map((response: any) => response.genres),
             catchError(this.handleError)
           );
@@ -51,7 +50,7 @@ export class MovieService {
         const url = `${this.movieByGenreUrl}${genreId}`;
         return this.http.get<IMovie[]>(url)
           .pipe(
-            tap(data => console.log('MovieService ByGenre: ',JSON.stringify(data))),
+            map((response: any) => response.results),
             catchError(this.handleError)
           );
       }

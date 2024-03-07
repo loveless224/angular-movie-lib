@@ -1,11 +1,10 @@
-import { Component, NgModule, ViewChild } from "@angular/core";
-import { NgModel } from "@angular/forms";
+import { Component} from "@angular/core";
 import { RouterLinkActive, RouterLink, RouterOutlet } from "@angular/router";
 import { MovieService } from "../movies/movie.service";
-import { IMovie } from "../movies/movie";
 import { FormsModule } from "@angular/forms";
 import { IGenre } from "../movies/genre";
 import { WelcomeComponent } from "./home/welcome/welcome.component";
+import { DataService } from "../data/dataservice";
 
 @Component({
     selector: 'pm-root',
@@ -36,10 +35,10 @@ import { WelcomeComponent } from "./home/welcome/welcome.component";
     imports: [RouterLinkActive, RouterLink, RouterOutlet, FormsModule]
 })
 export class AppComponent {
-  constructor(private movieService: MovieService){}
+  genreList: IGenre[] = [];
+  constructor(private movieService: MovieService, private dataService: DataService){}
 
-  welcomeComponent = new WelcomeComponent(this.movieService);
-
+  welcomeComponent = new WelcomeComponent(this.movieService, this.dataService);
 
   searchQuery: string = '';
 
@@ -48,7 +47,19 @@ export class AppComponent {
   }
 
   handleGenreClick(genre: string) {
-    this.welcomeComponent.handleGenreClick(genre);
+    this.movieService.getGenres().subscribe(
+      (genres) => {
+        this.genreList = genres;
+        const selectedGenre = this.genreList.find(genreList => genreList.name === genre);
+        if (selectedGenre) {
+          this.movieService.getMovieByGenre(selectedGenre.id).subscribe(
+            (movies) => {
+              this.dataService.updateData(movies);
+            }
+          );
+        }
+      }
+    );
   }
   pageTitle = '';
 }
