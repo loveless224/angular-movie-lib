@@ -43,7 +43,12 @@ export class AppComponent {
   searchQuery: string = '';
 
   onSearch(title: string) {
-    this.welcomeComponent.onSearch(title);
+    this.movieService.getMoviesByTitle(title).subscribe(
+      (movies) => {
+        console.log(movies);
+        this.dataService.updateData(movies);
+      }
+    )
   }
 
   handleGenreClick(genre: string) {
@@ -54,6 +59,7 @@ export class AppComponent {
         if (selectedGenre) {
           this.movieService.getMovieByGenre(selectedGenre.id).subscribe(
             (movies) => {
+              console.log(movies);
               this.dataService.updateData(movies);
             }
           );

@@ -36,16 +36,4 @@ export class WelcomeComponent {
     } 
    );
   }
-
-  setMovieList(movies: IMovie[]) {
-    this.movieList = [...movies];
-  }
-
-  onSearch(title: string) {
-    this.movieService.getMoviesByTitle(title).subscribe(
-      (movies) => {
-        this.movieList = [...movies];
-      }
-    )
-  }
 }

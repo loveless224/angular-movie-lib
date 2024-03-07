@@ -23,7 +23,7 @@ export class MovieService {
         const url = `${this.movieUrl}/movie-by-title/${encodeURIComponent(titleOfMovie)}`;
         return this.http.get<IMovie[]>(url)
           .pipe(
-              tap(data => console.log('MoviesService: ', JSON.stringify(data))),
+              map((response: any) => response.results),
               catchError(this.handleError)
         );
       }
