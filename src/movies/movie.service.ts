@@ -15,12 +15,13 @@ export class MovieService {
     private movieByTitleUrl = `${this.movieUrl}/movie-by-title/`;
     private moviesByPopularity = `${this.movieUrl}/movies-by-popularity`
     private movieByGenreUrl = `${this.movieUrl}/movies-by-genre/`
+    private movieByIdUrl = `${this.movieUrl}/movie-by-id/`
     private genresUrl = `${this.movieUrl}/genres`
 
     constructor(private http: HttpClient){ } 
 
     getMoviesByTitle(titleOfMovie: string): Observable<IMovie[]> {
-        const url = `${this.movieUrl}/movie-by-title/${encodeURIComponent(titleOfMovie)}`;
+        const url = `${this.movieByTitleUrl}${encodeURIComponent(titleOfMovie)}`;
         return this.http.get<IMovie[]>(url)
           .pipe(
               map((response: any) => response.results),
@@ -48,6 +49,15 @@ export class MovieService {
 
       getMovieByGenre(genreId: number): Observable<IMovie[]> {
         const url = `${this.movieByGenreUrl}${genreId}`;
+        return this.http.get<IMovie[]>(url)
+          .pipe(
+            map((response: any) => response.results),
+            catchError(this.handleError)
+          );
+      }
+
+      getMovieById(id: number) {
+        const url = `${this.movieByIdUrl}${id}`;
         return this.http.get<IMovie[]>(url)
           .pipe(
             map((response: any) => response.results),

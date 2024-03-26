@@ -36,4 +36,12 @@ export class WelcomeComponent {
     } 
    );
   }
+
+  getMovieById(id: number) {
+    this.movieService.getMovieById(id).subscribe(
+      (movies) => {
+        console.log(movies);
+      }
+    );
+  }
 }
