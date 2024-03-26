@@ -45,7 +45,6 @@ export class AppComponent {
   onSearch(title: string) {
     this.movieService.getMoviesByTitle(title).subscribe(
       (movies) => {
-        console.log(movies);
         this.dataService.updateData(movies);
       }
     )
@@ -59,7 +58,6 @@ export class AppComponent {
         if (selectedGenre) {
           this.movieService.getMovieByGenre(selectedGenre.id).subscribe(
             (movies) => {
-              console.log(movies);
               this.dataService.updateData(movies);
             }
           );
