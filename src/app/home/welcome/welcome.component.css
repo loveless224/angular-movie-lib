@@ -1,0 +1,21 @@
+:host ::ng-deep .p-carousel .p-carousel-indicators,
+:host ::ng-deep .p-carousel .p-carousel-dots {
+    display: none !important;
+}
+
+:host ::ng-deep .p-carousel-next,
+:host ::ng-deep .p-carousel-prev {
+    border-radius: 50%; 
+    border: none; 
+    background-color: transparent; 
+    margin: 10px;
+}
+
+/*:host ::ng-deep .p-carousel-next,
+:host ::ng-deep .p-carousel-prev{
+    background-color: rgba(0, 0, 0, 0.1); 
+}*/
+
+.moviePoster{
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+}

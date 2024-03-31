@@ -17,7 +17,7 @@ import { DataService } from '../../../data/dataservice';
   styleUrl: './welcome.component.css'
 })
 export class WelcomeComponent {
-  public pageTitle = "Astral Streaming";
+  public pageTitle = "";
   sub!: Subscription;
   movieList: IMovie[] = [];
   genreList: IGenre[] = [];
