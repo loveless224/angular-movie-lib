@@ -1,4 +1,5 @@
 import { Component} from '@angular/core';
+import { Router } from '@angular/router';
 import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
@@ -23,7 +24,7 @@ export class WelcomeComponent {
   genreList: IGenre[] = [];
   errorMessage = '';
 
-  constructor(private movieService: MovieService, private dataService: DataService) {
+  constructor(private movieService: MovieService, private dataService: DataService, private router: Router) {
     this.dataService.movieList$.subscribe(newData => {
       this.movieList = newData;
     });
@@ -43,5 +44,9 @@ export class WelcomeComponent {
         console.log(movies);
       }
     );
+  }
+
+  onMovieClicked(movie: IMovie) {
+    this.router.navigate(['/movie', movie.id]);
   }
 }

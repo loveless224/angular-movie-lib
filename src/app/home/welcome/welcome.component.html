@@ -11,7 +11,7 @@
         </div>
         <p-carousel [value]="movieList" [numVisible]="3" [numScroll]="3" [circular]="true">
           <ng-template let-movie pTemplate="item">
-              <div class="border-1 surface-border border-round m-2 text-center py-5 px-3" (click)="getMovieById(movie.id)">
+              <div class="border-1 surface-border border-round m-2 text-center py-5 px-3" (click)="onMovieClicked(movie)">
                   <div class="mb-3">
                       <!-- Use property binding [src] -->
                       <img [src]="'https://image.tmdb.org/t/p/original/' + movie.poster_path" class="w-6 shadow-2" style="max-width: 100%; max-height: 200px;" />

@@ -1,5 +1,5 @@
 import { Component} from "@angular/core";
-import { RouterLinkActive, RouterLink, RouterOutlet } from "@angular/router";
+import { RouterLinkActive, RouterLink, RouterOutlet, Router } from "@angular/router";
 import { MovieService } from "../movies/movie.service";
 import { FormsModule } from "@angular/forms";
 import { IGenre } from "../movies/genre";
@@ -36,9 +36,9 @@ import { DataService } from "../data/dataservice";
 })
 export class AppComponent {
   genreList: IGenre[] = [];
-  constructor(private movieService: MovieService, private dataService: DataService){}
+  constructor(private movieService: MovieService, private dataService: DataService, private router: Router){}
 
-  welcomeComponent = new WelcomeComponent(this.movieService, this.dataService);
+  welcomeComponent = new WelcomeComponent(this.movieService, this.dataService, this.router);
 
   searchQuery: string = '';
 
