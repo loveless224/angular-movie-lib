@@ -11,31 +11,25 @@
         </div>
         <p-carousel [value]="movieList" [numVisible]="3" [numScroll]="3" [circular]="true">
           <ng-template let-movie pTemplate="item">
-              <div class="border-1 surface-border border-round m-2 text-center py-5 px-3">
-                  <div class="mb-3">
-                      <!-- Use property binding [src] -->
-                      <img [src]="'https://image.tmdb.org/t/p/original/' + movie.poster_path" class="w-6 shadow-2 moviePoster" style="max-width: 100%; max-height: 200px;" />
-                  </div>
-                  <div>
-                      <h4 class="mb-1">{{ movie.original_title }}</h4>
-                      <h6 class="mt-0 mb-3">{{ 'Rating: ' + movie.vote_average }}</h6>
-                      <p-tag [value]="movie.release_date"></p-tag>
-                      <div class="mt-5 flex align-items-center justify-content-center gap-2">
-                          
-                      </div>
-                  </div>
+            <div class="border-1 surface-border border-round m-2 text-center py-5 px-3">
+              <div class="mb-3">
+                <img 
+                  [src]="'https://image.tmdb.org/t/p/original/' + movie.poster_path" 
+                  class="w-6 shadow-2 moviePoster" 
+                  style="max-width: 100%; max-height: 200px;" 
+                  (click)="showDetails(movie)" />
               </div>
+              <div>
+                <h4 class="mb-1">{{ movie.original_title }}</h4>
+                <h6 class="mt-0 mb-3">{{ 'Rating: ' + movie.vote_average }}</h6>
+                <p-tag [value]="movie.release_date"></p-tag>
+              </div>
+            </div>
           </ng-template>
-      </p-carousel>
-  
-        <div class="text-center">Developed by:</div>
-        <div class="text-center">
-          <h3>Paul Loveless</h3>
-        </div>
-  
-        <div class="text-center">
-          <a href="https://www.linkedin.com/in/paul-loveless00/">Paul's LinkedIn</a>
-        </div>
+        </p-carousel>
+        
+        <!-- Display the Movie Detail Component -->
+        <app-movie-detail *ngIf="selectedMovie" [movie]="selectedMovie"></app-movie-detail>
       </div>
     </div>
   </div>

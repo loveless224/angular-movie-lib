@@ -1,0 +1,8 @@
+<div *ngIf="movie">
+    <h2>{{ movie.original_title }}</h2>
+    <img [src]="'https://image.tmdb.org/t/p/original/' + movie.poster_path" />
+    <p>Rating: {{ movie.vote_average }}</p>
+    <p>Release Date: {{ movie.release_date }}</p>
+    <p>{{ movie.overview }}</p> <!-- Assuming there's an overview field -->
+    <!-- <button (click)="close()">Close</button> -->
+  </div>
