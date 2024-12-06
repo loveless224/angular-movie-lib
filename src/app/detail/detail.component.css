@@ -1,0 +1,19 @@
+.moviePoster {
+    width: 80%; /* Adjust width to make the poster bigger (adjust as needed) */
+    max-width: 600px; /* Set a max-width to ensure it doesn't grow too large */
+    height: auto; /* Keep the aspect ratio intact */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+    transition: box-shadow 0.3s ease;
+    
+    /* Center the poster */
+    display: block; /* Ensure it's treated as a block-level element */
+    margin: 0 auto; /* Center it horizontally */
+  }
+  
+  .moviePosterContainer {
+    display: flex;
+    justify-content: center; /* Center the content horizontally */
+    align-items: center; /* Center the content vertically */
+    height: 100vh; /* Full viewport height to center the content vertically */
+    text-align: center; /* Ensure text inside is centered */
+  }

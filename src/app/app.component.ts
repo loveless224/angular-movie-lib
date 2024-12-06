@@ -15,7 +15,7 @@ import { DataService } from "../data/dataservice";
                style="max-height:100px;padding-bottom:5px" />
         <a class='navbar-brand'>{{pageTitle}}</a>
         <ul class='nav nav-pills'>
-          <li><a class='nav-link' routerLinkActive='active' routerLink='/welcome'>Home</a></li>
+          <li><a [routerLink]="['welcome']"  (click)="loadPopular()" style='margin-left: 50px; cursor: pointer;'>Home</a></li>
           <li><a  (click)="handleGenreClick('Action')" style='margin-left: 50px; cursor: pointer;'>Action</a></li>
           <li><a  (click)="handleGenreClick('Comedy')" style='margin-left: 50px; cursor: pointer;'>Comedy</a></li>
           <li><a  (click)="handleGenreClick('Horror')" style='margin-left: 50px; cursor: pointer;'>Horror</a></li>
@@ -64,6 +64,14 @@ export class AppComponent {
         }
       }
     );
+  }
+
+  loadPopular() {
+    this.movieService.getMoviesByPopularity().subscribe(
+      (movies) => {
+        this.dataService.updateData(movies);
+      }
+    )
   }
   pageTitle = '';
 }

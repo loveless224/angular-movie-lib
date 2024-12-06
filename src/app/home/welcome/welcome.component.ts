@@ -7,12 +7,13 @@ import { MovieService } from '../../../movies/movie.service';
 import { IMovie } from '../../../movies/movie';
 import { IGenre } from '../../../movies/genre';
 import { DataService } from '../../../data/dataservice';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-welcome',
   standalone: true,
-  imports: [CarouselModule, TagModule, ButtonModule],
+  imports: [CarouselModule, TagModule, ButtonModule, RouterModule],
   templateUrl: './welcome.component.html',
   styleUrl: './welcome.component.css'
 })

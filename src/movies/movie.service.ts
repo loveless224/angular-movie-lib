@@ -16,6 +16,7 @@ export class MovieService {
     private moviesByPopularity = `${this.movieUrl}/movies-by-popularity`
     private movieByGenreUrl = `${this.movieUrl}/movies-by-genre/`
     private genresUrl = `${this.movieUrl}/genres`
+    private movieByIdUrl = `${this.movieUrl}/movie-by-id`
 
     constructor(private http: HttpClient){ } 
 
@@ -53,6 +54,14 @@ export class MovieService {
             map((response: any) => response.results),
             catchError(this.handleError)
           );
+      }
+
+      getMovieById(movieId: number): Observable<IMovie> {
+        const url = `${this.movieByIdUrl}/${movieId}`;
+        return this.http.get<IMovie>(url).pipe(
+          map((response: any) => response),
+          catchError(this.handleError)  
+        );
       }
 
       private handleError(err: HttpErrorResponse): Observable<never> {
