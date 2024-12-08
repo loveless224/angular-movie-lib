@@ -44,11 +44,13 @@ export class AppComponent {
   searchQuery: string = '';
 
   onSearch(title: string) {
-    this.movieService.getMoviesByTitle(title).subscribe(
-      (movies) => {
-        this.dataService.updateData(movies);
-      }
-    )
+    this.router.navigate(['/search', title]).then(() => {
+      this.movieService.getMoviesByTitle(title).subscribe(
+        (movies) => {
+          this.dataService.updateData(movies);
+        }
+      );
+    });
   }
 
   handleGenreClick(genre: string) {
@@ -68,7 +70,7 @@ export class AppComponent {
       );
     });
   }
-  
+
   loadPopular() {
     this.movieService.getMoviesByPopularity().subscribe(
       (movies) => {
