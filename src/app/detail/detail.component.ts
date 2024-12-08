@@ -4,40 +4,65 @@ import { DataService } from '../../data/dataservice';
 import { IMovie } from '../../movies/movie';
 import { ActivatedRoute } from '@angular/router';
 import { NgIf } from '@angular/common';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { NgStyle } from '@angular/common';
 
 @Component({
   selector: 'app-detail',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf, NgStyle],
   template: `
-    <div class = "moviePosterContainer" *ngIf="movie?.poster_path && movie?.original_title && movie?.release_date">
-    <img class ='moviePoster'[src]="'https://image.tmdb.org/t/p/original/' + movie.poster_path" class="w-6 shadow-2 movieDetailPoster"
-    style="max-width: 100%; max-height: 200px;"/>
+    <div class="background-container" *ngIf="movie?.poster_path">
+      <div class="background-image" [ngStyle]="{'background-image': 'url(' + getBackgroundImage() + ')'}"></div>
     </div>
-    <p>{{ movie.original_title }}</p>
-    <p>Release Date: {{ movie.release_date }}</p>
-      <!-- Add more movie details as necessary -->
+
+    <div class="content-container">
+      <div class="moviePosterContainer" *ngIf="movie?.poster_path && movie?.original_title && movie?.release_date">
+        <img class="moviePoster" [src]="'https://image.tmdb.org/t/p/w500/' + movie.poster_path"
+             />
+      </div>
+      <p>{{ movie.original_title }}</p>
+      <p>Release Date: {{ movie.release_date }}</p>
+       
+      <div class="movie-details">
+        <button (click)="onPlayClick()" class="play-button">
+          Play Video
+        </button>
+
+        <div *ngIf="isVideoPlaying && youtubeUrl">
+          <iframe [src]="youtubeUrl" width="640" height="360" frameborder="0" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
   `,
   styleUrl: './detail.component.css'
 })
 export class DetailComponent {
+
+  movie: IMovie = {} as IMovie;
+  youtubeUrl: SafeResourceUrl | null = null;
+  isVideoPlaying: Boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private movieService: MovieService,
-    private dataService: DataService
+    private dataService: DataService,
+    private sanitizer: DomSanitizer
   ) {}
-
-  movie: IMovie = {} as IMovie;
 
   ngOnInit(): void {
     const movieId = Number(this.route.snapshot.paramMap.get('id'));
     if (movieId) {
-      console.log(movieId)
+      console.log(movieId);
       this.movieService.getMovieById(movieId).subscribe(
         (movie) => {
-          // Update the movie data in the dataService
           this.dataService.updateData([movie]);
-          this.movie = movie;  // Update local movie data\
+          this.movie = movie; // Update local movie data
+
+          // Sanitize the YouTube URL
+          if (movie.youtubeUrl) {
+            this.youtubeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(movie.youtubeUrl); 
+          }
         },
         (error) => {
           console.error('Error fetching movie by ID:', error);
@@ -46,4 +71,18 @@ export class DetailComponent {
     }
   }
 
+  onPlayClick() {
+    console.log(this.movie);
+    if (this.youtubeUrl) 
+    {
+      this.isVideoPlaying = true;
+    }
+    else{
+      console.error('Video URL Unavailable')
+    }
+  }
+
+  getBackgroundImage(): string {
+    return `https://image.tmdb.org/t/p/w1280/${this.movie.poster_path}`
+  }
 }

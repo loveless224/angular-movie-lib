@@ -5,6 +5,7 @@ import { FormsModule } from "@angular/forms";
 import { IGenre } from "../movies/genre";
 import { WelcomeComponent } from "./home/welcome/welcome.component";
 import { DataService } from "../data/dataservice";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'pm-root',
@@ -36,7 +37,7 @@ import { DataService } from "../data/dataservice";
 })
 export class AppComponent {
   genreList: IGenre[] = [];
-  constructor(private movieService: MovieService, private dataService: DataService){}
+  constructor(private movieService: MovieService, private dataService: DataService, private router: Router){}
 
   welcomeComponent = new WelcomeComponent(this.movieService, this.dataService);
 
@@ -51,21 +52,23 @@ export class AppComponent {
   }
 
   handleGenreClick(genre: string) {
-    this.movieService.getGenres().subscribe(
-      (genres) => {
-        this.genreList = genres;
-        const selectedGenre = this.genreList.find(genreList => genreList.name === genre);
-        if (selectedGenre) {
-          this.movieService.getMovieByGenre(selectedGenre.id).subscribe(
-            (movies) => {
-              this.dataService.updateData(movies);
-            }
-          );
+    this.router.navigate(['/genre', genre]).then(() => {
+      this.movieService.getGenres().subscribe(
+        (genres) => {
+          this.genreList = genres;
+          const selectedGenre = this.genreList.find(genreList => genreList.name === genre);
+          if (selectedGenre) {
+            this.movieService.getMovieByGenre(selectedGenre.id).subscribe(
+              (movies) => {
+                this.dataService.updateData(movies);
+              }
+            );
+          }
         }
-      }
-    );
+      );
+    });
   }
-
+  
   loadPopular() {
     this.movieService.getMoviesByPopularity().subscribe(
       (movies) => {
