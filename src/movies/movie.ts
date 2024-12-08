@@ -8,4 +8,5 @@ export interface IMovie {
     original_language: string,
     release_date: string,
     vote_average: string,
+    youtubeUrl: string
 }

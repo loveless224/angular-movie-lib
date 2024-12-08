@@ -16,6 +16,11 @@
     background-color: rgba(0, 0, 0, 0.1); 
 }*/
 
-.moviePoster{
+.moviePoster {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+    transition: box-shadow 0.3s ease; /* Add transition for smooth effect */
+}
+
+.moviePoster:hover {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.9); /* Deeper shadow on hover */
 }
