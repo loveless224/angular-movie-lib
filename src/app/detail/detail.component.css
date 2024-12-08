@@ -31,6 +31,7 @@ body {
   bottom: 0;
   filter: blur(8px);
   opacity: 0.4;
+  filter: brightness(40%);
 }
 
 .content-container {
@@ -60,6 +61,7 @@ body {
   height: auto;      
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8) !important; 
   transition: box-shadow 0.3s ease;
+ 
   
   display: block;     
   margin: 0 auto;     

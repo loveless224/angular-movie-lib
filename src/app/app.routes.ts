@@ -6,7 +6,9 @@ export const routes: Routes = [
   { path: 'welcome', component: WelcomeComponent },
   { path: '', redirectTo: 'welcome', pathMatch: 'full' },
   { path: 'detail/:id', component: DetailComponent, title: 'Details' },
-  { path: 'genre/:genre', component: WelcomeComponent }
+  { path: 'genre/:genre', component: WelcomeComponent },
+  { path: 'search/:title', component: WelcomeComponent }
+
 ];
 
 export default routes;
