@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MovieService } from '../../movies/movie.service';
 import { DataService } from '../../data/dataservice';
 import { IMovie } from '../../movies/movie';
@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NgStyle } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-detail',
@@ -37,11 +38,12 @@ import { NgStyle } from '@angular/common';
   `,
   styleUrl: './detail.component.css'
 })
-export class DetailComponent {
+export class DetailComponent implements OnInit, OnDestroy {
 
   movie: IMovie = {} as IMovie;
   youtubeUrl: SafeResourceUrl | null = null;
   isVideoPlaying: Boolean = false;
+  subscription : Subscription | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -84,5 +86,12 @@ export class DetailComponent {
 
   getBackgroundImage(): string {
     return `https://image.tmdb.org/t/p/w1280/${this.movie.poster_path}`
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscription)
+    {
+      this.subscription.unsubscribe;
+    }
   }
 }

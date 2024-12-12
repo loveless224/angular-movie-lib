@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
 import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
@@ -17,12 +17,13 @@ import { RouterModule } from '@angular/router';
   templateUrl: './welcome.component.html',
   styleUrl: './welcome.component.css'
 })
-export class WelcomeComponent {
+export class WelcomeComponent implements OnInit, OnDestroy{
   public pageTitle = "";
   sub!: Subscription;
   movieList: IMovie[] = [];
   genreList: IGenre[] = [];
   errorMessage = '';
+  private subscription: Subscription | null = null;
 
   constructor(private movieService: MovieService, private dataService: DataService) {
     this.dataService.movieList$.subscribe(newData => {
@@ -36,5 +37,12 @@ export class WelcomeComponent {
       this.movieList = [...movies];
     } 
    );
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscription)
+    {
+      this.subscription.unsubscribe;
+    }
   }
 }
